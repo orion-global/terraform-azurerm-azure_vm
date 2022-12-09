@@ -10,7 +10,6 @@ Aquí está la lista de parámetros totales para su referencia:
   * dns_servers 
   * edge_zone 
   * internal_dns_name_label 
-  
 ---
 
 ## Usage
@@ -18,20 +17,18 @@ Aquí está la lista de parámetros totales para su referencia:
 ```hcl
 module "module_test" {
   source                        = "app.terraform.io/orion-global/azure_nic/azurerm"
-  version                       = "1.1.1"
+  version                       = "1.1.2"
   network_rg_name               = "test-rg"
   network_name                  = "test-vnet"
   subnet_name                   = "test-subnet"
   resource_group_name           = "test-rg-2"
   location_name                 = "eastus"
-  create_resource_group         = true
   enable_accelerated_networking = true
   enable_ip_forwarding          = true
   tags = {
     "test" = "test"
   }
 }
-
 ```
 
 <!-- BEGIN_TF_DOCS -->
