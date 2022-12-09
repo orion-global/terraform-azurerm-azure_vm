@@ -27,13 +27,15 @@ data "azurerm_resource_group" "resource_group" {
 # Networking Configuration
 #------------------------------------------------------------------------------------------
 
-module "nic" {
+module "network_interfaces" {
   source              = "./modules/azure_nic"
-  network_rg_name     = var.network_rg_name
-  network_name        = var.network_name
-  subnet_name         = var.subnet_name
-  resource_group_name = azurerm_resource_group.resource_group[0].name
-  location_name       = azurerm_resource_group.resource_group[0].location
+  for_each            = var.network_interfaces
+  network_rg_name     = each.value.rg_name
+  nic_name            = each.key
+  network_name        = each.value.vnet_name
+  subnet_name         = each.value.subnet_name
+  resource_group_name = var.resource_group_name
+  location_name       = var.location_name
   tags                = var.tags
 }
 
@@ -43,14 +45,12 @@ module "nic" {
 
 resource "azurerm_linux_virtual_machine" "virtual_machine" {
   name                       = var.vm_name
-  resource_group_name        = azurerm_resource_group.resource_group[0].name
-  location                   = azurerm_resource_group.resource_group[0].location
+  resource_group_name        = var.resource_group_name
+  location                   = var.location_name
   size                       = var.vm_size
   admin_username             = local._admin_name
   allow_extension_operations = false
-  network_interface_ids = [
-    module.nic.nic_id
-  ]
+  network_interface_ids      = [for k, v in module.network_interfaces : v.nic_id]
 
   admin_ssh_key {
     username   = local._admin_name
