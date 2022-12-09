@@ -1,7 +1,7 @@
 module "module_test" {
   source                = "../../terraform-azurerm-azure_vm"
   vm_type               = "Linux"
-  create_resource_group = true
+  create_resource_group = false
   resource_group_name   = "test-rg"
   location_name         = "eastus"
   admin_name            = "test-admin"
