@@ -50,7 +50,8 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   size                       = var.vm_size
   admin_username             = local._admin_name
   allow_extension_operations = false
-  network_interface_ids      = module.nic[*].nic_id
+  network_interface_ids      = module.nic.*.nic_id
+
   admin_ssh_key {
     username   = local._admin_name
     public_key = file("./id_rsa.pub")
