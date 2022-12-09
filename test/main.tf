@@ -7,6 +7,7 @@ module "module_test" {
   network_rg_name       = "test-rg"
   network_name          = "test-vnet"
   subnet_name           = "test-subnet"
+  admin_name            = "test-admin"
   tags = {
     "test" = "test"
   }

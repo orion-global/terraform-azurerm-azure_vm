@@ -61,3 +61,13 @@ variable "subnet_name" {
   type        = string
   default     = null
 }
+
+#------------------------------------------------------------------------------------------
+# Virtual Machine variables
+#------------------------------------------------------------------------------------------
+
+variable "admin_name" {
+  description = "The name of the administrator account for the VM."
+  type        = string
+  default     = null
+}
