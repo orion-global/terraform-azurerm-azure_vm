@@ -1,4 +1,13 @@
 #------------------------------------------------------------------------------------------
+# Local Variables
+#------------------------------------------------------------------------------------------
+
+locals {
+  _linux_machine = var.vm_type == "Linux" ? 1 : 0
+  _admin_name    = var.admin_name == null ? "adminuser" : var.admin_name
+}
+
+#------------------------------------------------------------------------------------------
 # Resource Group
 #------------------------------------------------------------------------------------------
 
@@ -15,39 +24,8 @@ data "azurerm_resource_group" "resource_group" {
 }
 
 #------------------------------------------------------------------------------------------
-# Network Configuration
-#------------------------------------------------------------------------------------------
-
-data "azurerm_resource_group" "vnet_rg" {
-  name = var.network_rg_name
-}
-
-data "azurerm_virtual_network" "vnet" {
-  name                = var.network_name
-  resource_group_name = data.azurerm_resource_group.vnet_rg.name
-}
-
-data "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
-  virtual_network_name = data.azurerm_virtual_network.vnet.name
-  resource_group_name  = data.azurerm_resource_group.vnet_rg.name
-}
-
-#------------------------------------------------------------------------------------------
 # Linux Virtual Machine
 #------------------------------------------------------------------------------------------
-
-resource "azurerm_network_interface" "nic" {
-  name                = "example-nic"
-  location            = azurerm_resource_group.resource_group[0].location
-  resource_group_name = azurerm_resource_group.resource_group[0].name
-
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = data.azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
-  }
-}
 
 resource "azurerm_linux_virtual_machine" "virtual_machine" {
   name                       = var.vm_name
@@ -76,4 +54,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
     sku       = "16.04-LTS"
     version   = "latest"
   }
+
+  tags = var.tags
 }

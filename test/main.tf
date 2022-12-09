@@ -10,6 +10,10 @@ module "module_test" {
   admin_name            = "test-admin"
   vm_size               = "Standard_F2"
   vm_name               = "test-vm"
+  network_interfaces = {
+    nic-0 = { enable_zone_redundancy = true, enable_regional_endpoint = true }
+    nic-1 = { enable_zone_redundancy = false, enable_regional_endpoint = true }
+  }
   tags = {
     "test" = "test"
   }
