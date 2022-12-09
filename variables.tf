@@ -71,7 +71,7 @@ variable "zones" {
 variable "network_interfaces" {
   description = "A list of network interface IDs to attach to the VM."
   type = map(object({
-    rg_name     = string
+    rg_name     = optional(string)
     vnet_name   = string
     subnet_name = string
   }))

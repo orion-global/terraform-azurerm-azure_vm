@@ -34,7 +34,7 @@ data "azurerm_resource_group" "resource_group" {
 module "network_interfaces" {
   source              = "./modules/azure_nic"
   for_each            = var.network_interfaces
-  network_rg_name     = each.value.rg_name
+  network_rg_name     = each.value.rg_name == null ? var.resource_group_name : each.value.rg_name
   nic_name            = each.key
   network_name        = each.value.vnet_name
   subnet_name         = each.value.subnet_name
