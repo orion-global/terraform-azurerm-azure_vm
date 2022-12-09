@@ -24,6 +24,20 @@ data "azurerm_resource_group" "resource_group" {
 }
 
 #------------------------------------------------------------------------------------------
+# Networking Configuration
+#------------------------------------------------------------------------------------------
+
+module "nic" {
+  source              = "../modules/azure_nic"
+  network_rg_name     = var.network_rg_name
+  network_name        = var.network_name
+  subnet_name         = var.subnet_name
+  resource_group_name = azurerm_resource_group.resource_group[0].name
+  location_name       = azurerm_resource_group.resource_group[0].location
+  tags                = var.tags
+}
+
+#------------------------------------------------------------------------------------------
 # Linux Virtual Machine
 #------------------------------------------------------------------------------------------
 
@@ -35,7 +49,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   admin_username             = local._admin_name
   allow_extension_operations = false
   network_interface_ids = [
-    azurerm_network_interface.nic.id,
+    module.nic[0].nic_id
   ]
 
   admin_ssh_key {

@@ -41,6 +41,28 @@ variable "tags" {
 }
 
 #------------------------------------------------------------------------------------------
+# Network variables
+#------------------------------------------------------------------------------------------
+
+variable "network_rg_name" {
+  description = "Name of the resource group where the network is located"
+  type        = string
+  default     = null
+}
+
+variable "network_name" {
+  description = "Name of the Virtual Network for the VM"
+  type        = string
+  default     = null
+}
+
+variable "subnet_name" {
+  description = "Name of the Subnet for the VM. Must be part of the network_name"
+  type        = string
+  default     = null
+}
+
+#------------------------------------------------------------------------------------------
 # Virtual Machine variables
 #------------------------------------------------------------------------------------------
 
