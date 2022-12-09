@@ -8,6 +8,8 @@ module "module_test" {
   network_name          = "test-vnet"
   subnet_name           = "test-subnet"
   admin_name            = "test-admin"
+  vm_size               = "Standard_F2"
+  vm_name               = "test-vm"
   tags = {
     "test" = "test"
   }

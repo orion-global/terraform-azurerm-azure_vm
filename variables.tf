@@ -71,3 +71,15 @@ variable "admin_name" {
   type        = string
   default     = null
 }
+
+variable "vm_size" {
+  description = "The size of the VM."
+  type        = string
+  default     = null
+}
+
+variable "vm_name" {
+  description = "The name of the VM."
+  type        = string
+  default     = null
+}
