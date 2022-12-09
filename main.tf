@@ -29,7 +29,7 @@ data "azurerm_resource_group" "resource_group" {
 
 module "nic" {
   source              = "./modules/azure_nic"
-  for_each            = toset(var.network_interfaces)
+  for_each            = var.network_interfaces
   network_rg_name     = each.value.rg_name
   nic_name            = each.key
   network_name        = each.value.vnet_name
