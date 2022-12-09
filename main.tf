@@ -19,7 +19,7 @@ data "azurerm_resource_group" "resource_group" {
 #------------------------------------------------------------------------------------------
 
 data "azurerm_resource_group" "vnet_rg" {
-  name  = var.network_rg_name
+  name = var.network_rg_name
 }
 
 data "azurerm_virtual_network" "vnet" {
@@ -61,7 +61,7 @@ resource "azurerm_linux_virtual_machine" "example" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file("./id_rsa.pub")
   }
 
   os_disk {
