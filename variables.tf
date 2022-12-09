@@ -93,14 +93,11 @@ variable "license_type" {
 variable "os_disk" {
   description = "A os_disk block as defined below."
   type = object({
-    caching                          = optional(string)
-    sku                              = optional(string) # Standard_LRS, StandardSSD_LRS, Premium_LRS, StandardSSD_ZRS, Premium_ZRS
-    disk_encryption_set_id           = optional(string)
-    disk_size_gb                     = number
-    name                             = optional(string)
-    secure_vm_disk_encryption_set_id = optional(string)
-    security_encryption_type         = optional(string)
-    write_accelerator_enabled        = optional(string)
+    caching           = optional(string)
+    disk_size_gb      = number
+    name              = optional(string)
+    sku               = optional(string) # Standard_LRS, StandardSSD_LRS, Premium_LRS, StandardSSD_ZRS, Premium_ZRS
+    write_accelerator = optional(string)
   })
   default = null
 
