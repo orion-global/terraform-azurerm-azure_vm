@@ -3,8 +3,9 @@
 #------------------------------------------------------------------------------------------
 
 locals {
-  _linux_machine = var.vm_type == "Linux" ? 1 : 0
-  _admin_name    = var.admin_name == null ? "adminuser" : var.admin_name
+  _linux_machine         = var.vm_type == "Linux" ? 1 : 0
+  _admin_name            = var.admin_name == null ? "adminuser" : var.admin_name
+  _network_interface_ids = module.network_interfaces.*.nic_id
 }
 
 #------------------------------------------------------------------------------------------
@@ -50,7 +51,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   size                       = var.vm_size
   admin_username             = local._admin_name
   allow_extension_operations = false
-  network_interface_ids      = module.network_interfaces.*.nic_id
+  network_interface_ids      = local._network_interface_ids
 
   admin_ssh_key {
     username   = local._admin_name
