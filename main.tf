@@ -5,7 +5,7 @@
 locals {
   _linux_machine         = var.vm_type == "Linux" ? 1 : 0
   _admin_name            = var.admin_name == null ? "adminuser" : var.admin_name
-  _network_interface_ids = module.network_interfaces.*.nic_id
+  _network_interface_ids = module.network_interfaces[0].nic_id
 }
 
 #------------------------------------------------------------------------------------------
@@ -44,31 +44,31 @@ module "network_interfaces" {
 # Linux Virtual Machine
 #------------------------------------------------------------------------------------------
 
-resource "azurerm_linux_virtual_machine" "virtual_machine" {
-  name                       = var.vm_name
-  resource_group_name        = azurerm_resource_group.resource_group[0].name
-  location                   = azurerm_resource_group.resource_group[0].location
-  size                       = var.vm_size
-  admin_username             = local._admin_name
-  allow_extension_operations = false
-  network_interface_ids      = local._network_interface_ids
+# resource "azurerm_linux_virtual_machine" "virtual_machine" {
+#   name                       = var.vm_name
+#   resource_group_name        = azurerm_resource_group.resource_group[0].name
+#   location                   = azurerm_resource_group.resource_group[0].location
+#   size                       = var.vm_size
+#   admin_username             = local._admin_name
+#   allow_extension_operations = false
+#   network_interface_ids      = local._network_interface_ids
 
-  admin_ssh_key {
-    username   = local._admin_name
-    public_key = file("./id_rsa.pub")
-  }
+#   admin_ssh_key {
+#     username   = local._admin_name
+#     public_key = file("./id_rsa.pub")
+#   }
 
-  os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-  }
+#   os_disk {
+#     caching              = "ReadWrite"
+#     storage_account_type = "Standard_LRS"
+#   }
 
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
-    version   = "latest"
-  }
+#   source_image_reference {
+#     publisher = "Canonical"
+#     offer     = "UbuntuServer"
+#     sku       = "16.04-LTS"
+#     version   = "latest"
+#   }
 
-  tags = var.tags
-}
+#   tags = var.tags
+# }
