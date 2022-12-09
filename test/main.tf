@@ -14,8 +14,8 @@ module "module_test" {
   }
 
   network_interfaces = {
-    nic-0 = { rg_name = "test-rg", vnet_name = "test-vnet", subnet_name = "test-subnet" }
-    nic-1 = { rg_name = "test-rg", vnet_name = "test-vnet", subnet_name = "test-subnet" }
+    nic-0 = { vnet_name = "test-vnet", subnet_name = "test-subnet" }
+    nic-1 = { vnet_name = "test-vnet", subnet_name = "test-subnet" }
   }
   tags = {
     "test" = "test"
