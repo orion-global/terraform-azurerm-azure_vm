@@ -28,7 +28,7 @@ data "azurerm_resource_group" "resource_group" {
 #------------------------------------------------------------------------------------------
 
 module "nic" {
-  source              = "../modules/azure_nic"
+  source              = "./modules/azure_nic"
   network_rg_name     = var.network_rg_name
   network_name        = var.network_name
   subnet_name         = var.subnet_name
