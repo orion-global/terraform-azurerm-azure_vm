@@ -29,9 +29,11 @@ data "azurerm_resource_group" "resource_group" {
 
 module "nic" {
   source              = "./modules/azure_nic"
-  network_rg_name     = var.network_rg_name
-  network_name        = var.network_name
-  subnet_name         = var.subnet_name
+  for_each            = toset(var.network_interfaces)
+  network_rg_name     = each.value.rg_name
+  nic_name            = each.key
+  network_name        = each.value.vnet_name
+  subnet_name         = each.value.subnet_name
   resource_group_name = azurerm_resource_group.resource_group[0].name
   location_name       = azurerm_resource_group.resource_group[0].location
   tags                = var.tags
@@ -48,10 +50,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   size                       = var.vm_size
   admin_username             = local._admin_name
   allow_extension_operations = false
-  network_interface_ids = [
-    module.nic.nic_id
-  ]
-
+  network_interface_ids      = module.nic[*].nic_id
   admin_ssh_key {
     username   = local._admin_name
     public_key = file("./id_rsa.pub")

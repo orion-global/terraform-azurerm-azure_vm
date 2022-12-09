@@ -41,28 +41,6 @@ variable "tags" {
 }
 
 #------------------------------------------------------------------------------------------
-# Network variables
-#------------------------------------------------------------------------------------------
-
-variable "network_rg_name" {
-  description = "Name of the resource group where the network is located"
-  type        = string
-  default     = null
-}
-
-variable "network_name" {
-  description = "Name of the Virtual Network for the VM"
-  type        = string
-  default     = null
-}
-
-variable "subnet_name" {
-  description = "Name of the Subnet for the VM. Must be part of the network_name"
-  type        = string
-  default     = null
-}
-
-#------------------------------------------------------------------------------------------
 # Virtual Machine variables
 #------------------------------------------------------------------------------------------
 
@@ -87,8 +65,9 @@ variable "vm_name" {
 variable "network_interfaces" {
   description = "A list of network interface IDs to attach to the VM."
   type = map(object({
-    enable_zone_redundancy   = bool
-    enable_regional_endpoint = bool
+    rg_name     = string
+    vnet_name   = string
+    subnet_name = string
   }))
   default = null
 }
