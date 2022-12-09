@@ -47,6 +47,11 @@ module "network_interfaces" {
 # Linux Virtual Machine
 #------------------------------------------------------------------------------------------
 
+resource "tls_private_key" "virtual_machine_ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 resource "azurerm_linux_virtual_machine" "virtual_machine" {
   name                       = var.vm_name
   resource_group_name        = var.resource_group_name
@@ -64,7 +69,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   #------------------------------------------------------------------------------------------
   # additional_capabilities
   # admin_password
-  # admin_ssh_key
   # availability_set_id
   # boot_diagnostics
   # capacity_reservation_group_id
@@ -98,7 +102,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
 
   admin_ssh_key {
     username   = local._admin_name
-    public_key = file("./id_rsa.pub")
+    public_key = tls_private_key.virtual_machine_ssh_key.public_key_openssh
   }
 
   os_disk {
