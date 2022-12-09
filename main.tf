@@ -49,7 +49,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   admin_username             = local._admin_name
   allow_extension_operations = false
   network_interface_ids = [
-    module.nic[0].nic_id
+    module.nic.nic_id
   ]
 
   admin_ssh_key {
