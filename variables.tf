@@ -105,7 +105,7 @@ variable "os_disk" {
   default = null
 
   validation {
-    condition     = var.os_disk.sku == "Standard_LRS" || var.os_disk.sku == "StandardSSD_LRS" || var.os_disk.sku == "Premium_LRS" || var.os_disk.sku == "StandardSSD_ZRS" || var.os_disk.sku == "Premium_ZRS"
+    condition     = var.os_disk.sku == null || var.os_disk.sku == "Standard_LRS" || var.os_disk.sku == "StandardSSD_LRS" || var.os_disk.sku == "Premium_LRS" || var.os_disk.sku == "StandardSSD_ZRS" || var.os_disk.sku == "Premium_ZRS"
     error_message = "The SKU of the OS disk must be Standard_LRS, StandardSSD_LRS, Premium_LRS, StandardSSD_ZRS or Premium_ZRS."
   }
 }

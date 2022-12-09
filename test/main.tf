@@ -10,7 +10,6 @@ module "module_test" {
   zones                 = "1"
   license_type          = "SLES_BYOS"
   os_disk = {
-    sku          = "sdsdsd"
     disk_size_gb = 30
   }
 
