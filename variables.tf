@@ -50,7 +50,7 @@ variable "admin_name" {
   default     = null
 }
 
-variable "vm_size" {
+variable "vm_sku" {
   description = "The size of the VM."
   type        = string
   default     = null
@@ -58,6 +58,12 @@ variable "vm_size" {
 
 variable "vm_name" {
   description = "The name of the VM."
+  type        = string
+  default     = null
+}
+
+variable "zones" {
+  description = "The availability zone in which the VM should be created."
   type        = string
   default     = null
 }
@@ -70,4 +76,36 @@ variable "network_interfaces" {
     subnet_name = string
   }))
   default = null
+}
+
+variable "computer_name" {
+  description = "The computer name of the VM. If not specified, the VM name will be used as the computer name."
+  type        = string
+  default     = null
+}
+
+variable "license_type" {
+  description = "Specifies the type of license that will be applied to the VM. Possible values are RHEL_BYOS and SLES_BYOS for Linux VMs. Possible values are None, Windows_Client and Windows_Server for Windows VMs."
+  type        = string
+  default     = null
+}
+
+variable "os_disk" {
+  description = "A os_disk block as defined below."
+  type = object({
+    caching                          = optional(string)
+    sku                              = optional(string) # Standard_LRS, StandardSSD_LRS, Premium_LRS, StandardSSD_ZRS, Premium_ZRS
+    disk_encryption_set_id           = optional(string)
+    disk_size_gb                     = number
+    name                             = optional(string)
+    secure_vm_disk_encryption_set_id = optional(string)
+    security_encryption_type         = optional(string)
+    write_accelerator_enabled        = optional(string)
+  })
+  default = null
+
+  validation {
+    condition     = var.os_disk.sku == "Standard_LRS" || var.os_disk.sku == "StandardSSD_LRS" || var.os_disk.sku == "Premium_LRS" || var.os_disk.sku == "StandardSSD_ZRS" || var.os_disk.sku == "Premium_ZRS"
+    error_message = "The SKU of the OS disk must be Standard_LRS, StandardSSD_LRS, Premium_LRS, StandardSSD_ZRS or Premium_ZRS."
+  }
 }

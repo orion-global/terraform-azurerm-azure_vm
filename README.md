@@ -8,7 +8,46 @@ Aquí está la lista de parámetros totales para su referencia:
 * https://github.com/hashicorp/terraform-provider-azurerm/blob/main/website/docs/r/windows_virtual_machine.html.markdown
 
 ---
-**NOTA**: Módulo aún en desarrollo, se recomienda no emplearlo en entornos de producción.
+**NOTA**: Módulo aún en desarrollo, se recomienda no emplearlo en entornos de producción. Pendientes:
+  * Todo el recurso en Windows
+  * Recurso en Linux:
+    * additional_capabilities
+    * admin_password
+    * admin_ssh_key
+    * availability_set_id
+    * boot_diagnostics
+    * capacity_reservation_group_id
+    * computer_name
+    * custom_data
+    * dedicated_host_group_id
+    * dedicated_host_id
+    * disable_password_authentication
+    * edge_zone
+    * encryption_at_host_enabled
+    * eviction_policy
+    * extensions_time_budget
+    * gallery_application
+    * identity
+    * license_type
+    * max_bid_price
+    * os_disk
+    * patch_assessment_mode
+    * patch_mode
+    * plan
+    * platform_fault_domain
+    * priority
+    * provision_vm_agent
+    * proximity_placement_group_id
+    * secret
+    * secure_boot_enabled
+    * source_image_id
+    * source_image_reference
+    * tags
+    * termination_notification
+    * user_data
+    * virtual_machine_scale_set_id
+    * vtpm_enabled
+    * zone
 
 ---
 
@@ -25,7 +64,7 @@ module "module_test" {
   network_name          = "test-vnet"
   subnet_name           = "test-subnet"
   admin_name            = "test-admin"
-  vm_size               = "Standard_F2"
+  vm_sku               = "Standard_F2"
   vm_name               = "test-vm"
   network_interfaces = {
     nic-0 = { enable_zone_redundancy = true, enable_regional_endpoint = true }
@@ -76,7 +115,7 @@ module "module_test" {
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Required) The name of the resource group in which to create the Container Registry. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | (Optional) A mapping of tags to assign to the resource. Use the map of {tag = value} format. | `map(string)` | `{}` | no |
 | <a name="input_vm_name"></a> [vm\_name](#input\_vm\_name) | The name of the VM. | `string` | `null` | no |
-| <a name="input_vm_size"></a> [vm\_size](#input\_vm\_size) | The size of the VM. | `string` | `null` | no |
+| <a name="input_vm_sku"></a> [vm\_size](#input\_vm\_size) | The size of the VM. | `string` | `null` | no |
 | <a name="input_vm_type"></a> [vm\_type](#input\_vm\_type) | The id of the machine image (AMI) to use for the server. | `string` | n/a | yes |
 
 ## Outputs

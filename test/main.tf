@@ -5,8 +5,15 @@ module "module_test" {
   resource_group_name   = "test-rg"
   location_name         = "eastus"
   admin_name            = "test-admin"
-  vm_size               = "Standard_F2"
+  vm_sku                = "Standard_F2"
   vm_name               = "test-vm"
+  zones                 = "1"
+  license_type          = "SLES_BYOS"
+  os_disk = {
+    sku          = "sdsdsd"
+    disk_size_gb = 30
+  }
+
   network_interfaces = {
     nic-0 = { rg_name = "test-rg", vnet_name = "test-vnet", subnet_name = "test-subnet" }
     nic-1 = { rg_name = "test-rg", vnet_name = "test-vnet", subnet_name = "test-subnet" }
