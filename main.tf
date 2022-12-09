@@ -60,7 +60,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   ]
 
   admin_ssh_key {
-    username   = var.admin_name ? var.admin_name : "adminuser"
+    username   = var.admin_name == null ? "adminuser" : var.admin_name
     public_key = file("./id_rsa.pub")
   }
 
