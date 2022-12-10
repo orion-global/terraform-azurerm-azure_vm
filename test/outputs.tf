@@ -9,3 +9,8 @@ output "output_2" {
 output "output_3" {
   value = module.module_test.network_interfaces_private_ips
 }
+
+output "output_4" {
+  value     = module.module_test.private_ssh_key
+  sensitive = true
+}

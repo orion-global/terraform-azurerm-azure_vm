@@ -47,6 +47,11 @@ module "network_interfaces" {
 # Linux Virtual Machine
 #------------------------------------------------------------------------------------------
 
+resource "tls_private_key" "virtual_machine_ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 resource "azurerm_linux_virtual_machine" "virtual_machine" {
   name                       = var.vm_name
   resource_group_name        = var.resource_group_name
@@ -64,7 +69,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   #------------------------------------------------------------------------------------------
   # additional_capabilities
   # admin_password
-  # admin_ssh_key
   # availability_set_id
   # boot_diagnostics
   # capacity_reservation_group_id
@@ -98,33 +102,24 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
 
   admin_ssh_key {
     username   = local._admin_name
-    public_key = file("./id_rsa.pub")
+    public_key = tls_private_key.virtual_machine_ssh_key.public_key_openssh
   }
 
   os_disk {
-    name                             = local._os_disk_name
-    caching                          = local._os_disk_cache
-    storage_account_type             = local._os_disk_sku
-    disk_size_gb                     = var.os_disk.disk_size_gb
-    disk_encryption_set_id           = var.os_disk.disk_encryption_set_id
-    secure_vm_disk_encryption_set_id = var.os_disk.secure_vm_disk_encryption_set_id
-    security_encryption_type         = var.os_disk.security_encryption_type
-    write_accelerator_enabled        = var.os_disk.write_accelerator_enabled
+    caching                   = local._os_disk_cache
+    disk_size_gb              = var.os_disk.disk_size_gb
+    name                      = local._os_disk_name
+    storage_account_type      = local._os_disk_sku
+    write_accelerator_enabled = var.os_disk.write_accelerator
   }
 
   #------------------------------------------------------------------------------------------
   # Builder pending section
   #------------------------------------------------------------------------------------------
-  # caching
   # diff_disk_settings(Optional) Adiff_disk_settingsblock as defined above. Changing this forces a new resource to be created.
   # disk_encryption_set_id
-  # disk_size_gb
-  # name
   # secure_vm_disk_encryption_set_id
   # security_encryption_type
-  # storage_account_type
-  # write_accelerator_enabled
-
 
   source_image_reference {
     publisher = "Canonical"
