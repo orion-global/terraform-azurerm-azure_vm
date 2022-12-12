@@ -9,6 +9,7 @@ locals {
   _os_disk_name  = var.os_disk.name == null ? "${var.vm_name}-osdisk" : var.os_disk.name
   _os_disk_cache = var.os_disk.caching == null ? "None" : var.os_disk.caching
   _os_disk_sku   = var.os_disk.sku == null ? "Standard_LRS" : var.os_disk.sku
+
 }
 
 #------------------------------------------------------------------------------------------
@@ -92,9 +93,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # provision_vm_agent
   # proximity_placement_group_id
   # secret
-  # secure_boot_enabled
-  # source_image_id
-  # source_image_reference
+  # secure_boot_enabledy
   # termination_notification
   # user_data
   # virtual_machine_scale_set_id
@@ -114,19 +113,30 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   }
 
   #------------------------------------------------------------------------------------------
-  # Builder pending section
+  # os_disk Builder pending section
   #------------------------------------------------------------------------------------------
   # diff_disk_settings(Optional) Adiff_disk_settingsblock as defined above. Changing this forces a new resource to be created.
   # disk_encryption_set_id
   # secure_vm_disk_encryption_set_id
   # security_encryption_type
 
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
-    version   = "latest"
+  source_image_id = var.os_image_id == null ? null : var.os_image_id
+
+  dynamic "source_image_reference" {
+    for_each = (var.os_image_id == null ? [""] : [])
+    content {
+      publisher = var.os_image_reference.publisher
+      offer     = var.os_image_reference.offer
+      sku       = var.os_image_reference.sku
+      version   = var.os_image_reference.version
+    }
   }
+
+  #------------------------------------------------------------------------------------------
+  # Source Image Builder pending section
+  #------------------------------------------------------------------------------------------
+  # source_image_id
+  # source_image_reference
 
   tags = var.tags
 }

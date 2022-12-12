@@ -106,3 +106,20 @@ variable "os_disk" {
     error_message = "The SKU of the OS disk must be Standard_LRS, StandardSSD_LRS, Premium_LRS, StandardSSD_ZRS or Premium_ZRS."
   }
 }
+
+variable "os_image_reference" {
+  description = "Information of the OS image to use for the VM. This can be specified instead of a `source_image_id` to reference a published image in the Azure Marketplace. The `offer`, `publisher`, `sku` and `version` can be found by running `az vm image list` or in the Azure Portal. The `version` can be omitted to use the latest version."
+  type = object({
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  })
+  default = null
+}
+
+variable "os_image_id" {
+  description = "The ID of a custom image to use for the VM. This can be specified instead of a `os_source_image` to reference a custom image."
+  type        = string
+  default     = null
+}
