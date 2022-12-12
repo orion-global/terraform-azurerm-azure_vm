@@ -59,3 +59,19 @@ variable "enable_ip_forwarding" {
   type        = bool
   default     = false
 }
+
+variable "dns_servers" {
+  description = "A list of DNS servers IP addresses"
+  type        = list(string)
+  default     = null
+}
+
+variable "configurations" {
+  description = "A list of IP configurations for the NIC"
+  type = map(object({
+    private_ip_address = optional(string)
+    allocation         = optional(string)
+    version            = optional(string)
+  }))
+  default = null
+}

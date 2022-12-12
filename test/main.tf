@@ -17,8 +17,15 @@ module "module_test" {
     nic-0 = { vnet_name = "test-vnet", subnet_name = "test-subnet" }
     nic-1 = { vnet_name = "test-vnet", subnet_name = "test-subnet" }
   }
+
+  os_image_reference = {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "16.04-LTS"
+    version   = "latest"
+  }
+
   tags = {
     "test" = "test"
   }
-
 }
