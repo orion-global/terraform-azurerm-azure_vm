@@ -71,7 +71,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # additional_capabilities
   # admin_password
   # availability_set_id
-  # boot_diagnostics
   # capacity_reservation_group_id
   # custom_data
   # dedicated_host_group_id
@@ -104,6 +103,18 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
     public_key = tls_private_key.virtual_machine_ssh_key.public_key_openssh
   }
 
+  #------------------------------------------------------------------------------------------
+  # Builder pending section
+  #------------------------------------------------------------------------------------------
+  # boot_diagnostics
+
+  dynamic "boot_diagnostics" {
+    for_each = (var.boot_diagnostics == true) ? [1] : []
+    content {
+      storage_account_uri = null
+    }
+  }
+
   os_disk {
     caching                   = local._os_disk_cache
     disk_size_gb              = var.os_disk.disk_size_gb
@@ -131,12 +142,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
       version   = var.os_image_reference.version
     }
   }
-
-  #------------------------------------------------------------------------------------------
-  # Source Image Builder pending section
-  #------------------------------------------------------------------------------------------
-  # source_image_id
-  # source_image_reference
 
   tags = var.tags
 }

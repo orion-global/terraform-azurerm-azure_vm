@@ -123,3 +123,9 @@ variable "os_image_id" {
   type        = string
   default     = null
 }
+
+variable "boot_diagnostics" {
+  description = "Enable or disable boot diagnostics."
+  type        = bool
+  default     = null
+}
