@@ -11,6 +11,6 @@ output "network_interfaces_private_ips" {
 }
 
 output "private_ssh_key" {
-  value     = tls_private_key.virtual_machine_ssh_key[0].private_key_openssh
+  value     = var.vm_type == "Linux" ? tls_private_key.virtual_machine_ssh_key[0].private_key_openssh : null
   sensitive = true
 }

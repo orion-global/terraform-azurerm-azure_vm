@@ -8,7 +8,6 @@ locals {
   _os_disk_name  = var.os_disk.name == null ? "${var.vm_name}-osdisk" : var.os_disk.name
   _os_disk_cache = var.os_disk.caching == null ? "None" : var.os_disk.caching
   _os_disk_sku   = var.os_disk.sku == null ? "Standard_LRS" : var.os_disk.sku
-
 }
 
 #------------------------------------------------------------------------------------------
@@ -266,12 +265,13 @@ module "data_disks" {
   zone                = tonumber(var.zone)
   lun                 = each.key
   tags                = var.tags
-  virtual_machine_id  = azurerm_linux_virtual_machine.virtual_machine[0].id
+  virtual_machine_id  = var.vm_type == "Windows" ? azurerm_windows_virtual_machine.virtual_machine[0].id : azurerm_linux_virtual_machine.virtual_machine[0].id
   storage_type        = each.value.storage_type
   create_option       = each.value.create_option
   caching             = each.value.caching
   write_accelerator   = each.value.write_accelerator
   depends_on = [
-    azurerm_linux_virtual_machine.virtual_machine
+    azurerm_linux_virtual_machine.virtual_machine,
+    azurerm_windows_virtual_machine.virtual_machine
   ]
 }
