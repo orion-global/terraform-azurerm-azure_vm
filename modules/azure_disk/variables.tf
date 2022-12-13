@@ -87,3 +87,9 @@ variable "write_accelerator" {
   type        = bool
   default     = null
 }
+
+variable "attach" {
+  description = "(Optional) Specifies if the disk should be attached to the virtual machine. Changing this forces a new resource to be created."
+  type        = bool
+  default     = null
+}

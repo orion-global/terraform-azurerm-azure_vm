@@ -7,7 +7,7 @@ module "module_test" {
   admin_name            = "test-admin"
   vm_sku                = "Standard_F2"
   vm_name               = "test-vm"
-  zones                 = "1"
+  zone                 = "1"
   license_type          = "SLES_BYOS"
   os_disk = {
     disk_size_gb = 30

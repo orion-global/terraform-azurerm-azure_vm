@@ -61,7 +61,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   admin_username             = local._admin_name
   allow_extension_operations = false
   network_interface_ids      = [for k, v in module.network_interfaces : v.nic_id]
-  zone                       = var.zones
+  zone                       = var.zone
   computer_name              = local._computer_name
   license_type               = var.license_type
 
@@ -149,9 +149,10 @@ module "data_disks" {
   for_each            = var.data_disks
   resource_group_name = var.resource_group_name
   location_name       = var.location_name
-  name                = "${var.vm_name}-disk${index(keys(var.data_disks), each.key)}"
+  name                = "${var.vm_name}-datadisk${index(keys(var.data_disks), each.key)}"
+  attach              = true
   size                = each.value.size
-  zone                = each.value.zone
+  zone                = tonumber(var.zone)
   lun                 = each.key
   tags                = var.tags
   virtual_machine_id  = azurerm_linux_virtual_machine.virtual_machine.id

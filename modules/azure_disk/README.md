@@ -14,13 +14,13 @@ Aquí está la lista de parámetros totales para su referencia:
 module "module_test" {
   source                = "../../terraform-azurerm-azure_disk"
   create_resource_group = false
-  resource_group_name   = "RG-VPN"
+  resource_group_name   = "test-rg"
   location_name         = "eastus"
   name                  = "test-disk"
   size                  = 10
   zone                  = 1
   lun                   = 10
-  storage_type         = "PremiumV2_LRS"
+  attach                = true
   tags = {
     "test" = "test"
   }
@@ -60,11 +60,12 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_attach"></a> [attach](#input\_attach) | (Optional) Specifies if the disk should be attached to the virtual machine. Changing this forces a new resource to be created. | `bool` | `null` | no |
 | <a name="input_caching"></a> [caching](#input\_caching) | (Optional) Specifies the caching requirements. Possible values are None, ReadOnly and ReadWrite. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_create_option"></a> [create\_option](#input\_create\_option) | (Required) Specifies how the virtual machine should be created. Possible values are Copy, Empty, FromImage, Import, Restore and Upload. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_create_resource_group"></a> [create\_resource\_group](#input\_create\_resource\_group) | Action for creation or not of the resource group | `bool` | `false` | no |
 | <a name="input_location_name"></a> [location\_name](#input\_location\_name) | (Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. | `string` | `null` | no |
-| <a name="input_lun"></a> [lun](#input\_lun) | (Optional) Specifies the Logical Unit Number for the disk. Changing this forces a new resource to be created. | `number` | `null` | no |
+| <a name="input_lun"></a> [lun](#input\_lun) | Specifies the Logical Unit Number for the disk. Changing this forces a new resource to be created. | `number` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | (Required) Specifies the name of the Managed Disk. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Required) The name of the resource group in which to create the Container Registry. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_size"></a> [size](#input\_size) | (Optional) Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk. Changing this forces a new resource to be created. | `number` | `null` | no |

@@ -62,7 +62,7 @@ variable "vm_name" {
   default     = null
 }
 
-variable "zones" {
+variable "zone" {
   description = "The availability zone in which the VM should be created."
   type        = string
   default     = null
@@ -135,7 +135,6 @@ variable "data_disks" {
   type = map(object({
     name              = optional(string)
     size              = number
-    zone              = optional(number)
     storage_type      = optional(string)
     create_option     = optional(string)
     caching           = optional(string)
