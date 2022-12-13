@@ -25,6 +25,8 @@ module "module_test" {
     version   = "latest"
   }
 
+  boot_diagnostics = false
+
   tags = {
     "test" = "test"
   }
