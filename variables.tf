@@ -148,3 +148,9 @@ variable "data_disks" {
   }))
   default = null
 }
+
+variable "windows_password" {
+  description = "The password for administrator account of the Windows VM."
+  type        = string
+  default     = null
+}
