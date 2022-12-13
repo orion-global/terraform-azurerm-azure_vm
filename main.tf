@@ -35,12 +35,12 @@ data "azurerm_resource_group" "resource_group" {
 module "network_interfaces" {
   source              = "./modules/azure_nic"
   for_each            = var.network_interfaces
+  location_name       = var.location_name
+  network_name        = each.value.vnet_name
   network_rg_name     = each.value.rg_name == null ? var.resource_group_name : each.value.rg_name
   nic_name            = each.key
-  network_name        = each.value.vnet_name
-  subnet_name         = each.value.subnet_name
   resource_group_name = var.resource_group_name
-  location_name       = var.location_name
+  subnet_name         = each.value.subnet_name
   tags                = var.tags
 }
 
@@ -61,7 +61,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   admin_username             = local._admin_name
   allow_extension_operations = false
   network_interface_ids      = [for k, v in module.network_interfaces : v.nic_id]
-  zone                       = var.zones
+  zone                       = var.zone
   computer_name              = local._computer_name
   license_type               = var.license_type
 
@@ -138,4 +138,26 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   }
 
   tags = var.tags
+}
+
+#------------------------------------------------------------------------------------------
+# Data Disks
+#------------------------------------------------------------------------------------------
+
+module "data_disks" {
+  source              = "./modules/azure_disk"
+  for_each            = var.data_disks
+  resource_group_name = var.resource_group_name
+  location_name       = var.location_name
+  name                = "${var.vm_name}-datadisk${index(keys(var.data_disks), each.key)}"
+  attach              = true
+  size                = each.value.size
+  zone                = tonumber(var.zone)
+  lun                 = each.key
+  tags                = var.tags
+  virtual_machine_id  = azurerm_linux_virtual_machine.virtual_machine.id
+  storage_type        = each.value.storage_type
+  create_option       = each.value.create_option
+  caching             = each.value.caching
+  write_accelerator   = each.value.write_accelerator
 }

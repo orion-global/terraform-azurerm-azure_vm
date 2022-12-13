@@ -62,7 +62,7 @@ variable "vm_name" {
   default     = null
 }
 
-variable "zones" {
+variable "zone" {
   description = "The availability zone in which the VM should be created."
   type        = string
   default     = null
@@ -128,4 +128,17 @@ variable "boot_diagnostics" {
   description = "Enable or disable boot diagnostics. It will use only Managed Storage Account."
   type        = bool
   default     = null
+}
+
+variable "data_disks" {
+  description = "A list of data disks to attach to the VM. Use the Key for LUN number and all the other values for the disk configuration."
+  type = map(object({
+    name              = optional(string)
+    size              = number
+    storage_type      = optional(string)
+    create_option     = optional(string)
+    caching           = optional(string)
+    write_accelerator = optional(bool)
+  }))
+  default = null
 }
