@@ -18,6 +18,10 @@ module "module_test" {
     nic-1 = { vnet_name = "test-vnet", subnet_name = "test-subnet" }
   }
 
+  data_disks = {
+    10 = { size = 10 }
+  }
+
   os_image_reference = {
     publisher = "Canonical"
     offer     = "UbuntuServer"

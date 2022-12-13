@@ -129,3 +129,17 @@ variable "boot_diagnostics" {
   type        = bool
   default     = null
 }
+
+variable "data_disks" {
+  description = "A list of data disks to attach to the VM. Use the Key for LUN number and all the other values for the disk configuration."
+  type = map(object({
+    name              = optional(string)
+    size              = number
+    zone              = optional(number)
+    storage_type      = optional(string)
+    create_option     = optional(string)
+    caching           = optional(string)
+    write_accelerator = optional(bool)
+  }))
+  default = null
+}
