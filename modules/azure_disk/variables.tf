@@ -2,11 +2,11 @@
 # Action variables
 #------------------------------------------------------------------------------------------
 
-variable "create_resource_group" {
-  description = "Action for creation or not of the resource group"
-  type        = bool
-  default     = false
-}
+# variable "create_resource_group" {
+#   description = "Action for creation or not of the resource group"
+#   type        = bool
+#   default     = false
+# }
 
 #------------------------------------------------------------------------------------------
 # Default variables

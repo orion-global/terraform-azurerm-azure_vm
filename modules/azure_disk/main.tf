@@ -11,17 +11,17 @@ locals {
 # Resource Group
 #------------------------------------------------------------------------------------------
 
-resource "azurerm_resource_group" "resource_group" {
-  count    = var.create_resource_group ? 1 : 0
-  name     = var.resource_group_name
-  location = var.location_name
-  tags     = var.tags
-}
+# resource "azurerm_resource_group" "resource_group" {
+#   count    = var.create_resource_group ? 1 : 0
+#   name     = var.resource_group_name
+#   location = var.location_name
+#   tags     = var.tags
+# }
 
-data "azurerm_resource_group" "resource_group" {
-  count = var.create_resource_group ? 0 : 1
-  name  = var.resource_group_name
-}
+# data "azurerm_resource_group" "resource_group" {
+#   count = var.create_resource_group ? 0 : 1
+#   name  = var.resource_group_name
+# }
 
 #------------------------------------------------------------------------------------------
 # Disk Configuration
