@@ -52,6 +52,11 @@ module "network_interfaces" {
       private_ip_address = each.value.private_ip == null ? null : each.value.private_ip
     }
   }
+
+  depends_on = [
+    azurerm_resource_group.resource_group,
+    data.azurerm_resource_group.resource_group
+  ]
 }
 
 #------------------------------------------------------------------------------------------
