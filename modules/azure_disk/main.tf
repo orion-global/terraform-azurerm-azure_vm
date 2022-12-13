@@ -3,68 +3,84 @@
 #------------------------------------------------------------------------------------------
 
 locals {
-  _nic_rg_name = var.resource_group_name == null ? var.network_rg_name : var.resource_group_name
-  _nic_name    = var.nic_name == null ? "nic-00" : var.nic_name
-  _nic_config = var.configurations == null ? tomap({
-    0 = {
-      name       = "ipconfig0",
-      allocation = "Dynamic",
-      version    = "IPv4"
-    }
-  }) : var.configurations
+  _storage_sku = var.storage_type == null ? "Standard_LRS" : var.storage_type
+  _create      = var.create_option == null ? "Empty" : var.create_option
 }
 
 #------------------------------------------------------------------------------------------
-# Network Configuration
+# Resource Group
 #------------------------------------------------------------------------------------------
 
-data "azurerm_resource_group" "vnet_rg" {
-  name = var.network_rg_name
+resource "azurerm_resource_group" "resource_group" {
+  count    = var.create_resource_group ? 1 : 0
+  name     = var.resource_group_name
+  location = var.location_name
+  tags     = var.tags
 }
 
-data "azurerm_virtual_network" "vnet" {
-  name                = var.network_name
-  resource_group_name = data.azurerm_resource_group.vnet_rg.name
-}
-
-data "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
-  virtual_network_name = data.azurerm_virtual_network.vnet.name
-  resource_group_name  = data.azurerm_resource_group.vnet_rg.name
+data "azurerm_resource_group" "resource_group" {
+  count = var.create_resource_group ? 0 : 1
+  name  = var.resource_group_name
 }
 
 #------------------------------------------------------------------------------------------
-# Network Interface Configuration
+# Disk Configuration
 #------------------------------------------------------------------------------------------
 
-resource "azurerm_network_interface" "nic" {
-  name                          = local._nic_name
-  location                      = data.azurerm_virtual_network.vnet.location
-  resource_group_name           = local._nic_rg_name
-  enable_accelerated_networking = var.enable_accelerated_networking
-  enable_ip_forwarding          = var.enable_ip_forwarding
-  dns_servers                   = var.dns_servers
+resource "azurerm_managed_disk" "disk" {
+  name                 = var.name
+  location             = var.location_name
+  resource_group_name  = var.resource_group_name
+  storage_account_type = local._storage_sku
+  create_option        = local._create
+  disk_size_gb         = var.size
+  tags                 = var.tags
+  zone                 = var.zone
+}
 
-  dynamic "ip_configuration" {
-    for_each = local._nic_config
-    iterator = ipconfig
-    content {
-      name                          = "ipconfig${index(keys(local._nic_config), ipconfig.key)}"
-      primary                       = index(keys(local._nic_config), ipconfig.key) == 0 ? true : false
-      subnet_id                     = ipconfig.value.version == "IPv4" ? data.azurerm_subnet.subnet.id : null
-      private_ip_address            = ipconfig.value.allocation == "Static" ? ipconfig.value.private_ip_address : null
-      private_ip_address_allocation = ipconfig.value.allocation
-      private_ip_address_version    = ipconfig.value.version
-    }
-  }
+#-----------------------------------------------
+# Builder
+#-----------------------------------------------
+# create_option
+#   Copy
+#   Empty
+#   Import
+#   FromImage
+#   Restore
+#   Upload
+# disk_access_id
+# disk_encryption_set_id
+# disk_iops_read_only
+# disk_iops_read_write
+# disk_mbps_read_only
+# disk_mbps_read_write
+# edge_zone
+# encryption_settings
+# gallery_image_reference_id
+# hyper_v_generation
+# image_reference_id
+# logical_sector_size
+# max_shares
+# network_access_policy
+# on_demand_bursting_enabled
+# os_type
+# public_network_access_enabled
+# secure_vm_disk_encryption_set_id
+# security_type
+# source_resource_id
+# source_uri
+# storage_account_id
+# tier
+# trusted_launch_enabled
+# upload_size_bytes
 
-  #------------------------------------------------------------------------------------------
-  # Construcción de la interfaz de red
-  #------------------------------------------------------------------------------------------
-  # ip_configuration
-  #   public_ip_address_id
-  # edge_zone
-  # internal_dns_name_label
 
-  tags = var.tags
+resource "azurerm_virtual_machine_data_disk_attachment" "disk_attach" {
+  count                     = var.virtual_machine_id == null ? 0 : 1
+  managed_disk_id           = azurerm_managed_disk.disk.id
+  virtual_machine_id        = var.virtual_machine_id
+  lun                       = var.lun
+  caching                   = var.caching == null ? "None" : var.caching
+  create_option             = var.create_option == null ? "Attach" : var.create_option
+  write_accelerator_enabled = azurerm_managed_disk.disk.storage_account_type == "Premium_LRS" ? var.write_accelerator : null
 }

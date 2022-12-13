@@ -1,9 +1,25 @@
 #------------------------------------------------------------------------------------------
+# Action variables
+#------------------------------------------------------------------------------------------
+
+variable "create_resource_group" {
+  description = "Action for creation or not of the resource group"
+  type        = bool
+  default     = false
+}
+
+#------------------------------------------------------------------------------------------
 # Default variables
 #------------------------------------------------------------------------------------------
 
+variable "resource_group_name" {
+  description = "(Required) The name of the resource group in which to create the Container Registry. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
 variable "location_name" {
-  description = "The Azure location where all resources in this example should be created."
+  description = "(Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created."
   type        = string
   default     = null
 }
@@ -15,63 +31,59 @@ variable "tags" {
 }
 
 #------------------------------------------------------------------------------------------
-# Network variables
+# Data variable
 #------------------------------------------------------------------------------------------
 
-variable "resource_group_name" {
-  description = "Name of the resource group where the NIC will be created"
+variable "name" {
+  description = "(Required) Specifies the name of the Managed Disk. Changing this forces a new resource to be created."
   type        = string
   default     = null
 }
 
-variable "nic_name" {
-  description = "Name of the NIC to be created"
+variable "storage_type" {
+  description = "(Required) Specifies the storage account type for the managed disk. Possible values are Standard_LRS, StandardSSD_ZRS, Premium_LRS, PremiumV2_LRS, Premium_ZRS, StandardSSD_LRS and UltraSSD_LRS. Changing this forces a new resource to be created."
   type        = string
   default     = null
 }
 
-variable "network_rg_name" {
-  description = "Name of the resource group where the network is located"
+variable "create_option" {
+  description = "(Required) Specifies how the virtual machine should be created. Possible values are Copy, Empty, FromImage, Import, Restore and Upload. Changing this forces a new resource to be created."
   type        = string
   default     = null
 }
 
-variable "network_name" {
-  description = "Name of the Virtual Network for the VM"
+variable "size" {
+  description = "(Optional) Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk. Changing this forces a new resource to be created."
+  type        = number
+  default     = null
+}
+
+variable "zone" {
+  description = "(Optional) Specifies the Logical zone for the disk. Changing this forces a new resource to be created."
+  type        = number
+  default     = null
+}
+
+variable "virtual_machine_id" {
+  description = "(Optional) Specifies the ID of the Virtual Machine that this disk will be attached to. Changing this forces a new resource to be created."
   type        = string
   default     = null
 }
 
-variable "subnet_name" {
-  description = "Name of the Subnet for the VM. Must be part of the network_name"
+variable "caching" {
+  description = "(Optional) Specifies the caching requirements. Possible values are None, ReadOnly and ReadWrite. Changing this forces a new resource to be created."
   type        = string
   default     = null
 }
 
-variable "enable_accelerated_networking" {
-  description = "Enable or disable accelerated networking"
+variable "lun" {
+  description = "Specifies the Logical Unit Number for the disk. Changing this forces a new resource to be created."
+  type        = number
+  default     = null
+}
+
+variable "write_accelerator" {
+  description = "(Optional) Specifies whether writeAccelerator should be enabled or disabled on the disk. Changing this forces a new resource to be created."
   type        = bool
-  default     = false
-}
-
-variable "enable_ip_forwarding" {
-  description = "Enable or disable IP forwarding"
-  type        = bool
-  default     = false
-}
-
-variable "dns_servers" {
-  description = "A list of DNS servers IP addresses"
-  type        = list(string)
   default     = null
-}
-
-variable "configurations" {
-  description = "A list of IP configurations for the NIC"
-  type = map(object({
-    private_ip_address = optional(string)
-    allocation         = optional(string)
-    version            = optional(string)
-  }))
-  default = null
 }
