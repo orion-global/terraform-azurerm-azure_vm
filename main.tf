@@ -33,15 +33,25 @@ data "azurerm_resource_group" "resource_group" {
 #------------------------------------------------------------------------------------------
 
 module "network_interfaces" {
-  source              = "./modules/azure_nic"
-  for_each            = var.network_interfaces
-  location_name       = var.location_name
-  network_name        = each.value.vnet_name
-  network_rg_name     = each.value.rg_name == null ? var.resource_group_name : each.value.rg_name
-  nic_name            = each.key
-  resource_group_name = var.resource_group_name
-  subnet_name         = each.value.subnet_name
-  tags                = var.tags
+  source                        = "./modules/azure_nic"
+  for_each                      = var.network_interfaces
+  location_name                 = var.location_name
+  network_name                  = each.value.vnet_name
+  network_rg_name               = each.value.rg_name == null ? var.resource_group_name : each.value.rg_name
+  nic_name                      = each.key
+  resource_group_name           = var.resource_group_name
+  subnet_name                   = each.value.subnet_name
+  tags                          = var.tags
+  enable_accelerated_networking = each.value.enable_accelerated_networking
+  enable_ip_forwarding          = each.value.enable_ip_forwarding
+
+  configurations = each.value.allocation == null ? null : {
+    0 = {
+      allocation         = each.value.allocation == null ? null : each.value.allocation,
+      version            = each.value.version == null ? null : each.value.version,
+      private_ip_address = each.value.private_ip == null ? null : each.value.private_ip
+    }
+  }
 }
 
 #------------------------------------------------------------------------------------------

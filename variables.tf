@@ -71,9 +71,15 @@ variable "zone" {
 variable "network_interfaces" {
   description = "A list of network interface IDs to attach to the VM."
   type = map(object({
-    rg_name     = optional(string)
-    vnet_name   = string
-    subnet_name = string
+    rg_name                       = optional(string)
+    vnet_name                     = string
+    subnet_name                   = string
+    private_ip                    = optional(string)
+    allocation                    = optional(string)
+    version                       = optional(string)
+    enable_accelerated_networking = optional(bool)
+    enable_ip_forwarding          = optional(bool)
+    dns_servers                   = optional(list(string))
   }))
   default = null
 }

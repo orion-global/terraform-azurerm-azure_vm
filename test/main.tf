@@ -7,15 +7,24 @@ module "module_test" {
   admin_name            = "test-admin"
   vm_sku                = "Standard_F2"
   vm_name               = "test-vm"
-  zone                 = "1"
+  zone                  = "1"
   license_type          = "SLES_BYOS"
   os_disk = {
     disk_size_gb = 30
   }
 
   network_interfaces = {
-    nic-0 = { vnet_name = "test-vnet", subnet_name = "test-subnet" }
-    nic-1 = { vnet_name = "test-vnet", subnet_name = "test-subnet" }
+    nic-0 = {
+      vnet_name   = "test-vnet",
+      subnet_name = "test-subnet",
+      allocation  = "Static",
+      version     = "IPv4",
+      private_ip  = "10.0.0.10"
+    }
+    nic-1 = {
+      vnet_name   = "test-vnet",
+      subnet_name = "test-subnet"
+    }
   }
 
   data_disks = {
