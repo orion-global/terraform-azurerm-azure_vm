@@ -52,9 +52,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurerm_managed_disk.disk](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) | resource |
-| [azurerm_resource_group.resource_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_virtual_machine_data_disk_attachment.disk_attach](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) | resource |
-| [azurerm_resource_group.resource_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 
 ## Inputs
 
@@ -63,7 +61,6 @@ No modules.
 | <a name="input_attach"></a> [attach](#input\_attach) | (Optional) Specifies if the disk should be attached to the virtual machine. Changing this forces a new resource to be created. | `bool` | `null` | no |
 | <a name="input_caching"></a> [caching](#input\_caching) | (Optional) Specifies the caching requirements. Possible values are None, ReadOnly and ReadWrite. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_create_option"></a> [create\_option](#input\_create\_option) | (Required) Specifies how the virtual machine should be created. Possible values are Copy, Empty, FromImage, Import, Restore and Upload. Changing this forces a new resource to be created. | `string` | `null` | no |
-| <a name="input_create_resource_group"></a> [create\_resource\_group](#input\_create\_resource\_group) | Action for creation or not of the resource group | `bool` | `false` | no |
 | <a name="input_location_name"></a> [location\_name](#input\_location\_name) | (Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_lun"></a> [lun](#input\_lun) | Specifies the Logical Unit Number for the disk. Changing this forces a new resource to be created. | `number` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | (Required) Specifies the name of the Managed Disk. Changing this forces a new resource to be created. | `string` | `null` | no |
