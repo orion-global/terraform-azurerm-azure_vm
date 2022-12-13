@@ -42,6 +42,10 @@ module "network_interfaces" {
   resource_group_name = var.resource_group_name
   subnet_name         = each.value.subnet_name
   tags                = var.tags
+  depends_on = [
+    data.azurerm_resource_group.resource_group,
+    azurerm_resource_group.resource_group
+  ]
 }
 
 #------------------------------------------------------------------------------------------
