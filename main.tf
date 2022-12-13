@@ -160,4 +160,7 @@ module "data_disks" {
   create_option       = each.value.create_option
   caching             = each.value.caching
   write_accelerator   = each.value.write_accelerator
+  depends_on = [
+    azurerm_linux_virtual_machine.virtual_machine
+  ]
 }
