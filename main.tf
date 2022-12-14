@@ -248,6 +248,8 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
       version   = var.os_image_reference.version
     }
   }
+
+  tags = var.tags
 }
 
 #------------------------------------------------------------------------------------------
