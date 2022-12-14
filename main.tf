@@ -261,7 +261,7 @@ module "data_disks" {
   for_each            = var.data_disks
   resource_group_name = var.resource_group_name
   location_name       = var.location_name
-  name                = "${var.vm_name}-datadisk${index(keys(var.data_disks), each.key)}"
+  name                = each.value.name == null ? "${var.vm_name}-datadisk${index(keys(var.data_disks), each.key)}" : each.value.name
   attach              = true
   size                = each.value.size
   zone                = tonumber(var.zone)
