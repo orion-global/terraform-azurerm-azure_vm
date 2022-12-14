@@ -28,7 +28,10 @@ module "module_test" {
   }
 
   data_disks = {
-    10 = { size = 10 }
+    10 = {
+      size = 10,
+      name = "disk0"
+    }
   }
 
   os_image_reference = {
