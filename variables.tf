@@ -18,6 +18,18 @@ variable "create_resource_group" {
   default     = false
 }
 
+variable "create_linux_key" {
+  description = "Action for creation of Linux SSH key or not"
+  type        = bool
+  default     = false
+}
+
+variable "create_windows_password" {
+  description = "Action for creation of Windows password or not using random string"
+  type        = bool
+  default     = false
+}
+
 #------------------------------------------------------------------------------------------
 # Default variables
 #------------------------------------------------------------------------------------------
@@ -46,6 +58,19 @@ variable "tags" {
 
 variable "admin_name" {
   description = "The name of the administrator account for the VM."
+  type        = string
+  default     = null
+}
+
+variable "admin_password" {
+  description = "The password associated with the admin_name account."
+  type        = string
+  default     = null
+  sensitive   = true
+}
+
+variable "admin_ssh_key" {
+  description = "The SSH public key associated with the admin_name account."
   type        = string
   default     = null
 }

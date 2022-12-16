@@ -1,4 +1,4 @@
-module "module_test" {
+module "linux_host" {
   source                = "../../terraform-azurerm-azure_vm"
   vm_type               = "Linux"
   create_resource_group = false
@@ -49,16 +49,17 @@ module "module_test" {
 }
 
 module "windows_host" {
-  source                = "../../terraform-azurerm-azure_vm"
-  vm_type               = "Windows"
-  create_resource_group = false
-  resource_group_name   = "test-rg"
-  location_name         = "eastus"
-  admin_name            = "test-admin"
-  vm_sku                = "Standard_F2"
-  vm_name               = "test-vm"
-  zone                  = "1"
-  license_type          = "Windows_Server"
+  source                  = "../../terraform-azurerm-azure_vm"
+  vm_type                 = "Windows"
+  create_resource_group   = false
+  resource_group_name     = "test-rg"
+  location_name           = "eastus"
+  admin_name              = "test-admin"
+  vm_sku                  = "Standard_F2"
+  vm_name                 = "test-vm"
+  zone                    = "1"
+  license_type            = "Windows_Server"
+  create_windows_password = true
   os_disk = {
     disk_size_gb = 60
   }
