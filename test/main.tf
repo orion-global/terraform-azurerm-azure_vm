@@ -1,15 +1,15 @@
 module "linux_host" {
-  source                  = "../../terraform-azurerm-azure_vm"
-  vm_type                 = "Linux"
-  create_resource_group   = false
-  resource_group_name     = "test-rg"
-  location_name           = "eastus"
-  admin_name              = "test-admin"
-  vm_sku                  = "Standard_F2"
-  vm_name                 = "test-vm"
-  zone                    = "1"
-  create_create_linux_key = true
-  license_type            = "SLES_BYOS"
+  source                = "../../terraform-azurerm-azure_vm"
+  vm_type               = "Linux"
+  create_resource_group = false
+  resource_group_name   = "test-rg"
+  location_name         = "eastus"
+  admin_name            = "test-admin"
+  vm_sku                = "Standard_F2"
+  vm_name               = "test-vm"
+  zone                  = "1"
+  create_linux_key      = true
+  license_type          = "SLES_BYOS"
   os_disk = {
     disk_size_gb = 30
   }
