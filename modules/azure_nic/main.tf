@@ -39,7 +39,7 @@ data "azurerm_subnet" "subnet" {
 
 resource "azurerm_network_interface" "nic" {
   name                          = local._nic_name
-  location                      = data.azurerm_virtual_network.vnet.location
+  location                      = var.location_name
   resource_group_name           = local._nic_rg_name
   enable_accelerated_networking = var.enable_accelerated_networking
   enable_ip_forwarding          = var.enable_ip_forwarding
