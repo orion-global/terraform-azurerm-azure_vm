@@ -1,3 +1,9 @@
+resource "tls_private_key" "linux_ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+
 module "linux_host" {
   source                = "../../terraform-azurerm-azure_vm"
   vm_type               = "Linux"
@@ -8,7 +14,7 @@ module "linux_host" {
   vm_sku                = "Standard_F2"
   vm_name               = "test-vm"
   zone                  = "1"
-  create_linux_key      = true
+  admin_ssh_key         = tls_private_key.linux_ssh_key.public_key_openssh
   license_type          = "SLES_BYOS"
   os_disk = {
     disk_size_gb = 30
