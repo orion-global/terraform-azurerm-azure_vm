@@ -62,7 +62,7 @@ module "network_interfaces" {
 #------------------------------------------------------------------------------------------
 
 resource "tls_private_key" "virtual_machine_ssh_key" {
-  count     = var.vm_type == "Linux" ? 1 : 0
+  count     = var.vm_type == "Linux" && var.create_linux_key ? 1 : 0
   algorithm = "RSA"
   rsa_bits  = 4096
 }
@@ -114,7 +114,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
 
   admin_ssh_key {
     username   = local._admin_name
-    public_key = tls_private_key.virtual_machine_ssh_key[0].public_key_openssh
+    public_key = var.vm_type == "Linux" && var.create_linux_key ? tls_private_key.virtual_machine_ssh_key[0].public_key_openssh : var.admin_ssh_key
   }
 
   dynamic "boot_diagnostics" {
@@ -160,7 +160,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
 #------------------------------------------------------------------------------------------
 
 resource "random_password" "windows_password" {
-  count            = var.vm_type == "Windows" ? 1 : 0
+  count            = var.vm_type == "Windows" && var.create_windows_password ? 1 : 0
   length           = 16
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
@@ -178,7 +178,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   zone                       = var.zone
   computer_name              = local._computer_name
   license_type               = var.license_type
-  admin_password             = random_password.windows_password[0].result
+  admin_password             = var.vm_type == "Windows" && var.create_windows_password ? random_password.windows_password[0].result : var.admin_password
 
   #----------------------------------
   # Builder pending section

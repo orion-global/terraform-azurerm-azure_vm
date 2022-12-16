@@ -1,4 +1,4 @@
-module "module_test" {
+module "linux_host" {
   source                = "../../terraform-azurerm-azure_vm"
   vm_type               = "Linux"
   create_resource_group = false
@@ -8,6 +8,7 @@ module "module_test" {
   vm_sku                = "Standard_F2"
   vm_name               = "test-vm"
   zone                  = "1"
+  create_linux_key      = true
   license_type          = "SLES_BYOS"
   os_disk = {
     disk_size_gb = 30
@@ -48,6 +49,13 @@ module "module_test" {
   }
 }
 
+resource "random_password" "windows_password" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
+
 module "windows_host" {
   source                = "../../terraform-azurerm-azure_vm"
   vm_type               = "Windows"
@@ -59,6 +67,7 @@ module "windows_host" {
   vm_name               = "test-vm"
   zone                  = "1"
   license_type          = "Windows_Server"
+  admin_password        = random_password.windows_password.result
   os_disk = {
     disk_size_gb = 60
   }
