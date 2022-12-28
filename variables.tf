@@ -18,6 +18,12 @@ variable "create_resource_group" {
   default     = false
 }
 
+variable "create_proximity_group" {
+  description = "Action for creation or not of the proximity group"
+  type        = bool
+  default     = false
+}
+
 variable "create_linux_key" {
   description = "Action for creation of Linux SSH key or not"
   type        = bool
