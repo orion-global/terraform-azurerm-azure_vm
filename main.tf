@@ -111,7 +111,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # virtual_machine_scale_set_id
   # vtpm_enabled
 
-  proximity_placement_group_id = var.proximity_group ? var.proximity_group : null
+  proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
 
   admin_ssh_key {
     username   = local._admin_name
@@ -220,7 +220,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # vtpm_enabled
   # winrm_listener
 
-  proximity_placement_group_id = var.proximity_group ? var.proximity_group : null
+  proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
 
   dynamic "boot_diagnostics" {
     for_each = (var.boot_diagnostics == true) ? [1] : []
