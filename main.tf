@@ -58,6 +58,18 @@ module "network_interfaces" {
 }
 
 #------------------------------------------------------------------------------------------
+# Proximity Placement Group
+#------------------------------------------------------------------------------------------
+
+resource "azurerm_proximity_placement_group" "proximity_group" {
+  count               = var.create_proximity_group ? 1 : 0
+  name                = var.vm_name
+  location            = var.location_name
+  resource_group_name = var.resource_group_name
+  tags                = var.tags
+}
+
+#------------------------------------------------------------------------------------------
 # Linux Virtual Machine
 #------------------------------------------------------------------------------------------
 
@@ -104,13 +116,14 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # platform_fault_domain
   # priority
   # provision_vm_agent
-  # proximity_placement_group_id
   # secret
   # secure_boot_enabledy
   # termination_notification
   # user_data
   # virtual_machine_scale_set_id
   # vtpm_enabled
+
+  proximity_placement_group_id = var.create_proximity_group ? azurerm_proximity_placement_group.proximity_group[0].id : null
 
   admin_ssh_key {
     username   = local._admin_name
@@ -187,7 +200,6 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # additional_unattend_content
   # allow_extension_operations
   # availability_set_id
-  # boot_diagnostics
   # capacity_reservation_group_id
   # computer_name
   # custom_data
@@ -210,7 +222,6 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # platform_fault_domain
   # priority
   # provision_vm_agent
-  # proximity_placement_group_id
   # resource_group_name
   # secret
   # secure_boot_enabled
@@ -220,6 +231,15 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # virtual_machine_scale_set_id
   # vtpm_enabled
   # winrm_listener
+
+  proximity_placement_group_id = var.create_proximity_group ? azurerm_proximity_placement_group.proximity_group[0].id : null
+
+  dynamic "boot_diagnostics" {
+    for_each = (var.boot_diagnostics == true) ? [1] : []
+    content {
+      storage_account_uri = null
+    }
+  }
 
   os_disk {
     caching                   = local._os_disk_cache
