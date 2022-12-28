@@ -15,7 +15,6 @@ module "linux_host" {
   vm_name                = "test-vm"
   zone                   = "1"
   admin_ssh_key          = tls_private_key.linux_ssh_key.public_key_openssh
-  create_proximity_group = true
   license_type           = "SLES_BYOS"
   os_disk = {
     disk_size_gb = 30
@@ -74,7 +73,6 @@ module "windows_host" {
   vm_name                = "test-vm"
   zone                   = "1"
   license_type           = "Windows_Server"
-  create_proximity_group = true
   admin_password         = random_password.windows_password.result
   os_disk = {
     disk_size_gb = 60
