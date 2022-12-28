@@ -18,12 +18,6 @@ variable "create_resource_group" {
   default     = false
 }
 
-variable "create_proximity_group" {
-  description = "Action for creation or not of the proximity group"
-  type        = bool
-  default     = false
-}
-
 variable "create_linux_key" {
   description = "Action for creation of Linux SSH key or not"
   type        = bool
@@ -113,6 +107,12 @@ variable "network_interfaces" {
     dns_servers                   = optional(list(string))
   }))
   default = null
+}
+
+variable "proximity_group" {
+  description = "The ID of the Proximity Placement Group to use for the VM."
+  type        = string
+  default     = null
 }
 
 variable "computer_name" {
