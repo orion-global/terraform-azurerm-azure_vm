@@ -5,18 +5,18 @@ resource "tls_private_key" "linux_ssh_key" {
 
 
 module "linux_host" {
-  source                        = "../../terraform-azurerm-azure_vm"
-  vm_type                       = "Linux"
-  create_resource_group         = false
-  resource_group_name           = "test-rg"
-  location_name                 = "eastus"
-  admin_name                    = "test-admin"
-  vm_sku                        = "Standard_F2"
-  vm_name                       = "test-vm"
-  zone                          = "1"
-  admin_ssh_key                 = tls_private_key.linux_ssh_key.public_key_openssh
-  create_create_proximity_group = true
-  license_type                  = "SLES_BYOS"
+  source                 = "../../terraform-azurerm-azure_vm"
+  vm_type                = "Linux"
+  create_resource_group  = false
+  resource_group_name    = "test-rg"
+  location_name          = "eastus"
+  admin_name             = "test-admin"
+  vm_sku                 = "Standard_F2"
+  vm_name                = "test-vm"
+  zone                   = "1"
+  admin_ssh_key          = tls_private_key.linux_ssh_key.public_key_openssh
+  create_proximity_group = true
+  license_type           = "SLES_BYOS"
   os_disk = {
     disk_size_gb = 30
   }
@@ -64,18 +64,18 @@ resource "random_password" "windows_password" {
 
 
 module "windows_host" {
-  source                        = "../../terraform-azurerm-azure_vm"
-  vm_type                       = "Windows"
-  create_resource_group         = false
-  resource_group_name           = "test-rg"
-  location_name                 = "eastus"
-  admin_name                    = "test-admin"
-  vm_sku                        = "Standard_F2"
-  vm_name                       = "test-vm"
-  zone                          = "1"
-  license_type                  = "Windows_Server"
-  create_create_proximity_group = true
-  admin_password                = random_password.windows_password.result
+  source                 = "../../terraform-azurerm-azure_vm"
+  vm_type                = "Windows"
+  create_resource_group  = false
+  resource_group_name    = "test-rg"
+  location_name          = "eastus"
+  admin_name             = "test-admin"
+  vm_sku                 = "Standard_F2"
+  vm_name                = "test-vm"
+  zone                   = "1"
+  license_type           = "Windows_Server"
+  create_proximity_group = true
+  admin_password         = random_password.windows_password.result
   os_disk = {
     disk_size_gb = 60
   }
