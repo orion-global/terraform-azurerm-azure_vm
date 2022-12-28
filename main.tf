@@ -58,18 +58,6 @@ module "network_interfaces" {
 }
 
 #------------------------------------------------------------------------------------------
-# Proximity Placement Group
-#------------------------------------------------------------------------------------------
-
-resource "azurerm_proximity_placement_group" "proximity_group" {
-  count               = var.create_proximity_group ? 1 : 0
-  name                = var.vm_name
-  location            = var.location_name
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
-}
-
-#------------------------------------------------------------------------------------------
 # Linux Virtual Machine
 #------------------------------------------------------------------------------------------
 
@@ -123,7 +111,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # virtual_machine_scale_set_id
   # vtpm_enabled
 
-  proximity_placement_group_id = var.create_proximity_group ? azurerm_proximity_placement_group.proximity_group[0].id : null
+  proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
 
   admin_ssh_key {
     username   = local._admin_name
@@ -232,7 +220,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # vtpm_enabled
   # winrm_listener
 
-  proximity_placement_group_id = var.create_proximity_group ? azurerm_proximity_placement_group.proximity_group[0].id : null
+  proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
 
   dynamic "boot_diagnostics" {
     for_each = (var.boot_diagnostics == true) ? [1] : []
