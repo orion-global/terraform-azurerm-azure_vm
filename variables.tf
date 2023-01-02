@@ -185,3 +185,15 @@ variable "windows_password" {
   type        = string
   default     = null
 }
+
+variable "allow_extension_operations" {
+  description = "Should the Virtual Machine be allowed to perform extension operations."
+  type        = bool
+  default     = true
+}
+
+variable "provision_vm_agent" {
+  description = "Should the Virtual Machine Agent be provisioned."
+  type        = bool
+  default     = true
+}
