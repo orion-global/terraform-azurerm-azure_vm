@@ -79,6 +79,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   zone                       = var.zone
   computer_name              = local._computer_name
   license_type               = var.license_type
+  provision_vm_agent         = true
 
   #------------------------------------------------------------------------------------------
   # Builder pending section
@@ -103,7 +104,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # plan
   # platform_fault_domain
   # priority
-  # provision_vm_agent
   # secret
   # secure_boot_enabledy
   # termination_notification
@@ -180,6 +180,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   computer_name              = local._computer_name
   license_type               = var.license_type
   admin_password             = var.vm_type == "Windows" && var.create_windows_password ? random_password.windows_password[0].result : var.admin_password
+  provision_vm_agent         = true
 
   #----------------------------------
   # Builder pending section
@@ -209,7 +210,6 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # plan
   # platform_fault_domain
   # priority
-  # provision_vm_agent
   # resource_group_name
   # secret
   # secure_boot_enabled
