@@ -74,12 +74,12 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   location                   = var.location_name
   size                       = var.vm_sku
   admin_username             = local._admin_name
-  allow_extension_operations = false
+  allow_extension_operations = var.allow_extension_operations
   network_interface_ids      = [for k, v in module.network_interfaces : v.nic_id]
   zone                       = var.zone
   computer_name              = local._computer_name
   license_type               = var.license_type
-  provision_vm_agent         = true
+  provision_vm_agent         = var.provision_vm_agent
 
   #------------------------------------------------------------------------------------------
   # Builder pending section
@@ -174,20 +174,19 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   location                   = var.location_name
   size                       = var.vm_sku
   admin_username             = local._admin_name
-  allow_extension_operations = false
+  allow_extension_operations = var.allow_extension_operations
   network_interface_ids      = [for k, v in module.network_interfaces : v.nic_id]
   zone                       = var.zone
   computer_name              = local._computer_name
   license_type               = var.license_type
   admin_password             = var.vm_type == "Windows" && var.create_windows_password ? random_password.windows_password[0].result : var.admin_password
-  provision_vm_agent         = true
+  provision_vm_agent         = var.provision_vm_agent
 
   #----------------------------------
   # Builder pending section
   #----------------------------------
   # additional_capabilities
   # additional_unattend_content
-  # allow_extension_operations
   # availability_set_id
   # capacity_reservation_group_id
   # computer_name
