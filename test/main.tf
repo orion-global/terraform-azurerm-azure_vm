@@ -33,14 +33,7 @@ module "linux_host" {
       subnet_name = "test-subnet"
     }
   }
-
-  data_disks = {
-    10 = {
-      size = 10,
-      name = "disk0"
-    }
-  }
-
+  
   os_image_reference = {
     publisher = "Canonical"
     offer     = "UbuntuServer"

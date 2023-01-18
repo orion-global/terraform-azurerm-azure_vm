@@ -8,6 +8,7 @@ locals {
   _os_disk_name  = var.os_disk.name == null ? "${var.vm_name}-osdisk" : var.os_disk.name
   _os_disk_cache = var.os_disk.caching == null ? "None" : var.os_disk.caching
   _os_disk_sku   = var.os_disk.sku == null ? "Standard_LRS" : var.os_disk.sku
+  _data_disks    = var.data_disks == null ? {} : var.data_disks
 }
 
 #------------------------------------------------------------------------------------------
@@ -265,10 +266,10 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
 
 module "data_disks" {
   source              = "./modules/azure_disk"
-  for_each            = var.data_disks
+  for_each            = local._data_disks
   resource_group_name = var.resource_group_name
   location_name       = var.location_name
-  name                = each.value.name == null ? "${var.vm_name}-datadisk${index(keys(var.data_disks), each.key)}" : each.value.name
+  name                = each.value.name == null ? "${var.vm_name}-datadisk${index(keys(local._data_disks), each.key)}" : each.value.name
   attach              = true
   size                = each.value.size
   zone                = tonumber(var.zone)
