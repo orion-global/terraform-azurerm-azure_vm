@@ -8,7 +8,7 @@ locals {
   _os_disk_name  = var.os_disk.name == null ? "${var.vm_name}-osdisk" : var.os_disk.name
   _os_disk_cache = var.os_disk.caching == null ? "None" : var.os_disk.caching
   _os_disk_sku   = var.os_disk.sku == null ? "Standard_LRS" : var.os_disk.sku
-  _data_disks    = var.data_disks == null ? [] : var.data_disks
+  _data_disks    = var.data_disks == null ? {} : var.data_disks
 }
 
 #------------------------------------------------------------------------------------------
