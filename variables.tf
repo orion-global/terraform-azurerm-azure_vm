@@ -115,6 +115,12 @@ variable "proximity_group" {
   default     = null
 }
 
+variable "availability_set" {
+  description = "The ID of the Availability Set in which to place the VM."
+  type        = string
+  default     = null
+}
+
 variable "computer_name" {
   description = "The computer name of the VM. If not specified, the VM name will be used as the computer name."
   type        = string

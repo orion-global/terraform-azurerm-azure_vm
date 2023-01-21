@@ -32,7 +32,8 @@ data "azurerm_resource_group" "resource_group" {
 #------------------------------------------------------------------------------------------
 
 module "network_interfaces" {
-  source                        = "./modules/azure_nic"
+  source                        = "orion-global/azure_nic/azurerm"
+  version                       = "1.3.0"
   for_each                      = var.network_interfaces
   location_name                 = var.location_name
   network_name                  = each.value.vnet_name
@@ -87,7 +88,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   #------------------------------------------------------------------------------------------
   # additional_capabilities
   # admin_password
-  # availability_set_id
   # capacity_reservation_group_id
   # custom_data
   # dedicated_host_group_id
@@ -113,6 +113,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # vtpm_enabled
 
   proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
+  availability_set_id          = var.availability_set != null ? var.availability_set : null
 
   admin_ssh_key {
     username   = local._admin_name
@@ -188,7 +189,6 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   #----------------------------------
   # additional_capabilities
   # additional_unattend_content
-  # availability_set_id
   # capacity_reservation_group_id
   # computer_name
   # custom_data
@@ -221,6 +221,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # winrm_listener
 
   proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
+  availability_set_id          = var.availability_set != null ? var.availability_set : null
 
   dynamic "boot_diagnostics" {
     for_each = (var.boot_diagnostics == true) ? [1] : []
@@ -265,7 +266,8 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
 #------------------------------------------------------------------------------------------
 
 module "data_disks" {
-  source              = "./modules/azure_disk"
+  source              = "orion-global/azure_disk/azurerm"
+  version             = "1.1.2"
   for_each            = local._data_disks
   resource_group_name = var.resource_group_name
   location_name       = var.location_name

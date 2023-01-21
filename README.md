@@ -93,8 +93,8 @@ module "module_test" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_data_disks"></a> [data\_disks](#module\_data\_disks) | ./modules/azure_disk | n/a |
-| <a name="module_network_interfaces"></a> [network\_interfaces](#module\_network\_interfaces) | ./modules/azure_nic | n/a |
+| <a name="module_data_disks"></a> [data\_disks](#module\_data\_disks) | orion-global/azure_disk/azurerm | 1.1.2 |
+| <a name="module_network_interfaces"></a> [network\_interfaces](#module\_network\_interfaces) | orion-global/azure_nic/azurerm | 1.3.0 |
 
 ## Resources
 
@@ -115,6 +115,7 @@ module "module_test" {
 | <a name="input_admin_password"></a> [admin\_password](#input\_admin\_password) | The password associated with the admin\_name account. | `string` | `null` | no |
 | <a name="input_admin_ssh_key"></a> [admin\_ssh\_key](#input\_admin\_ssh\_key) | The SSH public key associated with the admin\_name account. | `string` | `null` | no |
 | <a name="input_allow_extension_operations"></a> [allow\_extension\_operations](#input\_allow\_extension\_operations) | Should the Virtual Machine be allowed to perform extension operations. | `bool` | `true` | no |
+| <a name="input_availability_set"></a> [availability\_set](#input\_availability\_set) | The ID of the Availability Set in which to place the VM. | `string` | `null` | no |
 | <a name="input_boot_diagnostics"></a> [boot\_diagnostics](#input\_boot\_diagnostics) | Enable or disable boot diagnostics. It will use only Managed Storage Account. | `bool` | `null` | no |
 | <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name) | The computer name of the VM. If not specified, the VM name will be used as the computer name. | `string` | `null` | no |
 | <a name="input_create_linux_key"></a> [create\_linux\_key](#input\_create\_linux\_key) | Action for creation of Linux SSH key or not | `bool` | `false` | no |
