@@ -88,7 +88,6 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   #------------------------------------------------------------------------------------------
   # additional_capabilities
   # admin_password
-  # availability_set_id
   # capacity_reservation_group_id
   # custom_data
   # dedicated_host_group_id
@@ -114,6 +113,7 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
   # vtpm_enabled
 
   proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
+  availability_set_id          = var.availability_set != null ? var.availability_set : null
 
   admin_ssh_key {
     username   = local._admin_name
@@ -189,7 +189,6 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   #----------------------------------
   # additional_capabilities
   # additional_unattend_content
-  # availability_set_id
   # capacity_reservation_group_id
   # computer_name
   # custom_data
@@ -222,6 +221,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   # winrm_listener
 
   proximity_placement_group_id = var.proximity_group != null ? var.proximity_group : null
+  availability_set_id          = var.availability_set != null ? var.availability_set : null
 
   dynamic "boot_diagnostics" {
     for_each = (var.boot_diagnostics == true) ? [1] : []
