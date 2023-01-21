@@ -32,7 +32,8 @@ data "azurerm_resource_group" "resource_group" {
 #------------------------------------------------------------------------------------------
 
 module "network_interfaces" {
-  source                        = "./modules/azure_nic"
+  source                        = "orion-global/azure_nic/azurerm"
+  version                       = "1.3.0"
   for_each                      = var.network_interfaces
   location_name                 = var.location_name
   network_name                  = each.value.vnet_name
@@ -265,7 +266,8 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
 #------------------------------------------------------------------------------------------
 
 module "data_disks" {
-  source              = "./modules/azure_disk"
+  source              = "orion-global/azure_disk/azurerm"
+  version             = "1.1.2"
   for_each            = local._data_disks
   resource_group_name = var.resource_group_name
   location_name       = var.location_name

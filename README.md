@@ -93,8 +93,8 @@ module "module_test" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_data_disks"></a> [data\_disks](#module\_data\_disks) | ./modules/azure_disk | n/a |
-| <a name="module_network_interfaces"></a> [network\_interfaces](#module\_network\_interfaces) | ./modules/azure_nic | n/a |
+| <a name="module_data_disks"></a> [data\_disks](#module\_data\_disks) | orion-global/azure_disk/azurerm | 1.1.2 |
+| <a name="module_network_interfaces"></a> [network\_interfaces](#module\_network\_interfaces) | orion-global/azure_nic/azurerm | 1.3.0 |
 
 ## Resources
 
